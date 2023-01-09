@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.remove_scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  margin: 0;
+}
