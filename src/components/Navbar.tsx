@@ -1,8 +1,8 @@
-import { CSSProperties, FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import logo from "../assets/images/netflix-logo.png";
 import avatar from "../assets/images/netflix-avatar.png";
 import { auth } from "../firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import BeatLoader from "react-spinners/BeatLoader";
 
