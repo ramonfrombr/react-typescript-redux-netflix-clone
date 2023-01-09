@@ -5,3 +5,7 @@
 .remove_scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+* {
+  margin: 0;
+}
