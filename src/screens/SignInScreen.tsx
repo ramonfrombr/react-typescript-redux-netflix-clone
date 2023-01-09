@@ -1,5 +1,5 @@
 import { MouseEvent, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaTools } from "react-icons/fa";
 import { auth } from "../firebase";
 
@@ -9,13 +9,16 @@ const SignInScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const signIn = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        console.log(userCredential.user);
+        window.localStorage.setItem("isLoggedIn", "true");
+        navigate("/");
       })
       .catch((error) => {
         alert(error.message);
@@ -29,7 +32,8 @@ const SignInScreen = () => {
       .then((userCredential) => {
         // Signed in
 
-        console.log(userCredential.user);
+        window.localStorage.setItem("isLoggedIn", "true");
+        navigate("/");
       })
       .catch((error) => {
         alert(error.message);
@@ -37,7 +41,7 @@ const SignInScreen = () => {
   };
 
   return (
-    <div className="mx-auto box-content max-w-[300px] bg-black/[0.85] p-[70px]">
+    <div className="mx-auto box-content max-w-[300px] bg-black/[0.85] p-[50px]">
       <form className="grid flex-col [&>input]:mb-[14px] [&>input]:h-[40px] [&>input]:rounded [&>input]:border-0 [&>input]:p-[10px] [&>input]:py-[5px] [&>input]:px-[15px] [&>input]:text-black [&>input]:outline-0">
         <h1 className="mb-6 text-left text-3xl font-bold">Sign In</h1>
         <input
@@ -69,10 +73,7 @@ const SignInScreen = () => {
 
         <h4 className="mt-[30px] text-left font-bold">
           <span className="text-gray-600">New to Netflix? </span>
-          <Link
-            to="/auth/signup"
-            className="hover:cursor-pointer hover:underline"
-          >
+          <Link to="/signup" className="hover:cursor-pointer hover:underline">
             Sign up now
           </Link>
         </h4>

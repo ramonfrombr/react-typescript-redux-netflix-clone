@@ -1,17 +1,15 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import AuthLayout from "../screens/AuthLayout";
 import HomeScreen from "../screens/HomeScreen";
 import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
-import Root from "./Root";
-import { auth } from "../firebase";
 
-const user = auth.currentUser;
+import PrivateRoute from "../components/PrivateRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <PrivateRoute />,
     children: [
       {
         path: "",
@@ -25,11 +23,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "signin",
-        element: !user ? <SignInScreen /> : <Navigate replace to={"/"} />,
+        element: <SignInScreen />,
       },
       {
         path: "signup",
-        element: !user ? <SignUpScreen /> : <Navigate replace to={"/"} />,
+        element: <SignUpScreen />,
       },
     ],
   },
