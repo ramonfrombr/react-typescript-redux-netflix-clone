@@ -3,7 +3,10 @@ import { Link, Navigate } from "react-router-dom";
 import { FaTools } from "react-icons/fa";
 import { auth } from "../firebase";
 
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
@@ -15,24 +18,12 @@ const SignInScreen = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        console.log(userCredential.user);
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
-
-  const signInWithDemoUser = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    signInWithEmailAndPassword(auth, "demo-user@gmail.com", "123456")
-      .then((userCredential) => {
-        // Signed in
 
         console.log(userCredential.user);
       })
       .catch((error) => {
-        alert(error.message);
+        const errorCode = error.code;
+        const errorMessage = error.message;
       });
   };
 
@@ -57,14 +48,6 @@ const SignInScreen = () => {
           onClick={signIn}
         >
           Sign In
-        </button>
-
-        <button
-          className="mt-5 flex items-center justify-center rounded bg-gray-600 py-4 px-5 text-base font-semibold text-white"
-          onClick={signInWithDemoUser}
-        >
-          <FaTools className="mr-2" />
-          Sign In with Demo User
         </button>
 
         <h4 className="mt-[30px] text-left font-bold">

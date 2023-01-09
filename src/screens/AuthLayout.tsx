@@ -1,8 +1,21 @@
 import logo from "../assets/images/netflix-logo.png";
 import banner from "../assets/images/banner.jpg";
 import { Link, Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { auth } from "../firebase";
 
 const AuthLayout = () => {
+  useEffect(() => {
+    auth.onAuthStateChanged((userAuth) => {
+      if (userAuth) {
+        // LoggedIN
+        console.log(userAuth);
+      } else {
+        // loggedOut
+      }
+    });
+  }, []);
+
   return (
     <div className="min-h-screen">
       <div
