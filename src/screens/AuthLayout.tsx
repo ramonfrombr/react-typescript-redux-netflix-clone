@@ -1,9 +1,31 @@
 import logo from "../assets/images/netflix-logo.png";
 import banner from "../assets/images/banner.jpg";
 import { Link, Navigate, Outlet } from "react-router-dom";
+import { auth } from "../firebase";
+import { useAppDispatch } from "../app/hooks";
+import { login, logout } from "../features/user/userSlice";
+import { useEffect } from "react";
 
 const AuthLayout = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      if (userAuth) {
+        dispatch(
+          login({
+            uid: userAuth.uid!,
+            email: userAuth.email!,
+          })
+        );
+      } else {
+        dispatch(logout);
+      }
+    });
+
+    return unsubscribe;
+  }, [dispatch]);
 
   return isLoggedIn ? (
     <Navigate to="/" />

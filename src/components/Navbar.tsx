@@ -5,11 +5,14 @@ import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import BeatLoader from "react-spinners/BeatLoader";
+import { useAppDispatch } from "../app/hooks";
+import { login, logout } from "../features/user/userSlice";
 
 const Navbar: FC = () => {
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const transitionNavBar = () => {
     if (window.scrollY > 100) {
@@ -21,11 +24,21 @@ const Navbar: FC = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      if (userAuth) {
+        dispatch(
+          login({
+            uid: userAuth.uid!,
+            email: userAuth.email!,
+          })
+        );
+      } else {
+        dispatch(logout);
+      }
       setLoading(false);
     });
 
     return unsubscribe;
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     window.addEventListener("scroll", transitionNavBar);
@@ -37,6 +50,7 @@ const Navbar: FC = () => {
       .then(() => {
         // Sign-out successful.
         window.localStorage.setItem("isLoggedIn", "false");
+        dispatch(logout);
         navigate("/signin");
       })
       .catch((error) => {
