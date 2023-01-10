@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import banner from "../assets/images/banner.jpg";
 import axios from "../axios";
 import requests from "../Requests";
 
